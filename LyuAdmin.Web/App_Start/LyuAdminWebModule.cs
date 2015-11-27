@@ -34,7 +34,7 @@ namespace LyuAdmin.Web
             Configuration.Localization.Languages.Add(new LanguageInfo("zh-CN", "简体中文", "famfamfam-flag-cn", true));
 
            // var e = Configuration.Modules.AbpConfiguration.Get<string>(LocalizationSettingNames.DefaultLanguage);
-            Configuration.Modules.AbpConfiguration.Set(LocalizationSettingNames.DefaultLanguage, "zh-CN");
+            //Configuration.Modules.AbpConfiguration.Set(LocalizationSettingNames.DefaultLanguage, "zh-CN");
             Configuration.Navigation.Providers.Add<LyuAdminNavigationProvider>();
         }
 
