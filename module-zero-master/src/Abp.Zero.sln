@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abp.Zero", "Abp.Zero\Abp.Zero.csproj", "{70D916F2-9BFF-43DA-B3F7-3E0655114D48}"
 EndProject
@@ -21,6 +21,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abp.Zero.SampleApp.Tests", "Tests\Abp.Zero.SampleApp.Tests\Abp.Zero.SampleApp.Tests.csproj", "{3C90D572-EA4E-499C-AF95-407BFA8A36B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abp.Zero.Ldap", "Abp.Zero.Ldap\Abp.Zero.Ldap.csproj", "{587409A2-2470-4CC4-8F81-DB0A2B3E57A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abp", "..\..\aspnetboilerplate-master\src\Abp\Abp.csproj", "{2C221D3B-5F54-4C5B-8082-318636415132}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AbpLibrary", "AbpLibrary", "{E11EB447-FAAE-4C97-839B-E9FC9F88159F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abp.EntityFramework", "..\..\aspnetboilerplate-master\src\Abp.EntityFramework\Abp.EntityFramework.csproj", "{948F0CAF-3382-4E03-9A0F-0DDB206FE40D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abp.FluentMigrator", "..\..\aspnetboilerplate-master\src\Abp.FluentMigrator\Abp.FluentMigrator.csproj", "{908717CC-C284-4C88-A13C-32B62674845D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abp.NHibernate", "..\..\aspnetboilerplate-master\src\Abp.NHibernate\Abp.NHibernate.csproj", "{47853DCA-C058-42F4-B020-E9AC659C9204}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +62,22 @@ Global
 		{587409A2-2470-4CC4-8F81-DB0A2B3E57A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{587409A2-2470-4CC4-8F81-DB0A2B3E57A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{587409A2-2470-4CC4-8F81-DB0A2B3E57A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C221D3B-5F54-4C5B-8082-318636415132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C221D3B-5F54-4C5B-8082-318636415132}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C221D3B-5F54-4C5B-8082-318636415132}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C221D3B-5F54-4C5B-8082-318636415132}.Release|Any CPU.Build.0 = Release|Any CPU
+		{948F0CAF-3382-4E03-9A0F-0DDB206FE40D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{948F0CAF-3382-4E03-9A0F-0DDB206FE40D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{948F0CAF-3382-4E03-9A0F-0DDB206FE40D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{948F0CAF-3382-4E03-9A0F-0DDB206FE40D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{908717CC-C284-4C88-A13C-32B62674845D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{908717CC-C284-4C88-A13C-32B62674845D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{908717CC-C284-4C88-A13C-32B62674845D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{908717CC-C284-4C88-A13C-32B62674845D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47853DCA-C058-42F4-B020-E9AC659C9204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47853DCA-C058-42F4-B020-E9AC659C9204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47853DCA-C058-42F4-B020-E9AC659C9204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47853DCA-C058-42F4-B020-E9AC659C9204}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,5 +85,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{59AA0119-F76E-433F-B9D1-385F51A13A17} = {34AA52E9-B75E-46EF-AEBB-460AED9A0767}
 		{3C90D572-EA4E-499C-AF95-407BFA8A36B8} = {34AA52E9-B75E-46EF-AEBB-460AED9A0767}
+		{2C221D3B-5F54-4C5B-8082-318636415132} = {E11EB447-FAAE-4C97-839B-E9FC9F88159F}
+		{948F0CAF-3382-4E03-9A0F-0DDB206FE40D} = {E11EB447-FAAE-4C97-839B-E9FC9F88159F}
+		{908717CC-C284-4C88-A13C-32B62674845D} = {E11EB447-FAAE-4C97-839B-E9FC9F88159F}
+		{47853DCA-C058-42F4-B020-E9AC659C9204} = {E11EB447-FAAE-4C97-839B-E9FC9F88159F}
 	EndGlobalSection
 EndGlobal
