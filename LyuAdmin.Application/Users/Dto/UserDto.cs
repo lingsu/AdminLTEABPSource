@@ -30,7 +30,7 @@ namespace LyuAdmin.Users.Dto
 
         [StringLength(32,MinimumLength = 6)]
         [DisplayName("密码")]
-        [IgnoreMap]
+        //[IgnoreMap]
         public string Password { get; set; }
         [Compare("Password")]
         [StringLength(32, MinimumLength = 6)]
