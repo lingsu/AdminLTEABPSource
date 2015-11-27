@@ -1,0 +1,71 @@
+﻿@model LyuAdmin.Users.Dto.UserDto
+@{
+    var isAdmin = Model.UserName == "admin";
+    var setRandomPassword = Model.Id == 0;
+}
+@if (Model.Id > 0)
+{
+    <input type="hidden" name="Id" value="@Model.Id" />
+}
+
+<div class="row">
+    <div class="col-sm-4 text-center">
+        <img src="~/Content/Common/Images/default-profile-picture.png" width="128" height="128" class="img-thumbnail img-rounded user-edit-dialog-profile-image" />
+    </div>
+    <div class="col-sm-8">
+        <div class="form-group form-md-line-input">
+            @Html.Bootstrap().LabelFor(x => x.Name)
+            @Html.Bootstrap().TextBoxFor(x => x.Name)
+        </div>
+
+        <div class="form-group form-md-line-input">
+            @Html.Bootstrap().LabelFor(x => x.Surname)
+            @Html.Bootstrap().TextBoxFor(x => x.Surname)
+        </div>
+    </div>
+</div>
+<div class="form-group form-md-line-input">
+    @Html.Bootstrap().LabelFor(x => x.EmailAddress)
+    @Html.Bootstrap().TextBoxFor(x => x.EmailAddress).HtmlAttributes(new { type = "email" })
+</div>
+<div class="form-group form-md-line-input">
+    @Html.Bootstrap().LabelFor(x => x.UserName)
+    @Html.Bootstrap().TextBoxFor(x => x.UserName).Disabled(isAdmin)
+    @if (isAdmin)
+    {
+        <span class="help-block">管理用户，不能修改用户名.</span>
+    }
+</div>
+
+
+<div class="md-checkbox-list">
+    <div class="md-checkbox">
+        @Html.Bootstrap().CheckBoxFor(x=>x.SetRandomPassword).IsChecked(setRandomPassword).Id("EditUser_SetRandomPassword")
+        <label for="EditUser_SetRandomPassword">
+            使用默认密码
+        </label>
+    </div>
+</div>
+
+<div class="form-group form-md-line-input" style="display:  @(setRandomPassword ? "none":"block")">
+    @Html.Bootstrap().LabelFor(x => x.Password)
+    @Html.Bootstrap().PasswordFor(x => x.Password)
+</div>
+<div class="form-group form-md-line-input" style="display: @(setRandomPassword ? "none":"block")">
+    @Html.Bootstrap().LabelFor(x => x.PasswordRepeat)
+    @Html.Bootstrap().PasswordFor(x => x.PasswordRepeat)
+</div>
+<div class="md-checkbox-list">
+    <div class="md-checkbox">
+        @Html.Bootstrap().CheckBoxFor(x => x.ShouldChangePasswordOnNextLogin)
+        @Html.Bootstrap().LabelFor(x => x.ShouldChangePasswordOnNextLogin)
+    </div>
+    <div class="md-checkbox">
+        @Html.Bootstrap().CheckBoxFor(x => x.SendActivationEmail)
+        @Html.Bootstrap().LabelFor(x => x.SendActivationEmail)
+    </div>
+    <div class="md-checkbox">
+        @Html.Bootstrap().CheckBoxFor(x => x.IsActive)
+        @Html.Bootstrap().LabelFor(x => x.IsActive)
+    </div>
+</div>

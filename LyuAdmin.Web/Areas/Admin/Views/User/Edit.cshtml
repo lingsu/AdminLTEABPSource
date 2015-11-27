@@ -1,0 +1,74 @@
+﻿@model LyuAdmin.Web.Areas.Admin.Models.Users.CreateOrUpdateViewModel
+@{
+    var inserted = Model.User.Id > 0;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">
+        @if (inserted)
+        {
+            <span>修改用户: @Model.User.UserName</span>
+        }
+        else
+        {
+            <span>添加用户</span>
+        }
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#UserInformationsTab" data-toggle="tab" aria-expanded="true">
+                    用户信息
+                </a>
+            </li>
+            <li class="">
+                <a href="#RolesTab" data-toggle="tab" aria-expanded="false">
+                    角色 @if (Model.User.AssignedRoleNames.Count > 0)
+                    {
+                        <b class="badge badge-primary"><span id="assigned-role-count">@Model.User.AssignedRoleNames.Count</span></b>
+                    } 
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="UserInformationsTab">
+                <form name="UserInformationsForm" id="UserInformationsForm" role="form" class="form-validation">
+                    @Html.Partial("_UserPartial", Model.User)
+                </form>
+            </div>
+            <div class="tab-pane" id="RolesTab">
+                <div class="md-checkbox-list">
+                    @foreach (var roleDto in Model.Roles)
+                    {
+                        <div class="md-checkbox">
+
+                            @if ((!inserted && roleDto.IsDefault) || Model.User.AssignedRoleNames.Any(x => x == roleDto.Name))
+                            {
+                                <input class="md-check" type="checkbox" checked name="AssignedRoleNames" value="@roleDto.Name">
+                            }
+                            else
+                            {
+                                <input class="md-check" type="checkbox" name="AssignedRoleNames" value="@roleDto.Name">
+                            }
+                            <label>
+                                @roleDto.Name
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default close-button" data-dismiss="modal">取消</button>
+    <button type="button" class="btn blue save-button">
+        <i class="fa fa-save"></i> <span>保存</span>
+    </button>
+</div>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="zh-CN">
+  <texts>
+    <text name="Pages" value="页面" />
+    <text name="PagesAdministration" value="管理" />
+    <text name="User" value="用户管理" />
+    <text name="CreateUser" value="新增用户" />
+    <text name="UpdateUser" value="更新用户" />
+    <text name="DeleteUser" value="删除用户" />
+    <text name="Role" value="角色管理" />
+    <text name="CreateRole" value="新增角色" />
+    <text name="UpdateRole" value="更新角色" />
+    <text name="DeleteRole" value="删除角色" />
+  </texts>
+</localizationDictionary>
