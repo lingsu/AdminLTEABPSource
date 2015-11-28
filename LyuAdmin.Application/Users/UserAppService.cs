@@ -7,6 +7,7 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Authorization.Users;
 using Abp.AutoMapper;
+using Abp.Configuration;
 using Abp.Configuration.Startup;
 using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
@@ -31,14 +32,15 @@ namespace LyuAdmin.Users
         private readonly RoleManager _roleManager;
         private readonly IPermissionManager _permissionManager;
         private readonly IRepository<UserRole,long> _userRoleRepository;
+        private readonly ISettingManager _settingManager;
 
-
-        public UserAppService(UserManager userManager, RoleManager roleManager, IPermissionManager permissionManager, IRepository<UserRole, long> userRoleRepository)
+        public UserAppService(UserManager userManager, RoleManager roleManager, IPermissionManager permissionManager, IRepository<UserRole, long> userRoleRepository, ISettingManager settingManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _permissionManager = permissionManager;
             _userRoleRepository = userRoleRepository;
+            _settingManager = settingManager;
         }
 
         public async Task ProhibitPermission(ProhibitPermissionInput input)
@@ -118,6 +120,10 @@ namespace LyuAdmin.Users
             //    throw new UserFriendlyException(L("NameIsExists"));
             //}
             var entity = input.User.MapTo<User>();
+
+            
+
+
             entity.Roles = new List<UserRole>();
             foreach (var assignedRoleName in input.AssignedRoleNames)
             {
@@ -149,18 +155,23 @@ namespace LyuAdmin.Users
         [AbpAuthorize(UsersPermissions.User_UpdateUser)]
         public virtual async Task UpdateUser(CreateOrUpdateUserInput input)
         {
-
-            //if (await _userRepository.IsExistsUserByName(input.CategoryName, input.Id))
-            //{
-            //    throw new UserFriendlyException(L("NameIsExists"));
-            //}
             var entity = await _userManager.GetUserByIdAsync(input.User.Id);
-           
-            input.User.MapTo(entity);
 
+            if (entity.UserName == _settingManager.GetSettingValue(UserSettingNames.DefaultAdminUserName) && input.User.UserName != entity.UserName)
+            {
+                throw new UserFriendlyException("管理用户，不能修改用户名");
+            }
+
+            entity.UserName = input.User.UserName;
+            entity.Name = input.User.Name;
+            entity.Surname = input.User.Surname;
+            entity.EmailAddress = input.User.EmailAddress;
+            entity.IsActive = input.User.IsActive;
+
+            //input.User.MapTo(entity);
             if (!string.IsNullOrEmpty(input.User.Password))
                 entity.Password = new PasswordHasher().HashPassword(input.User.Password);
-
+            
             var newCustomerRoles = new List<Role>();
 
             var allCustomerRoles = await _roleManager.Roles.ToListAsync();
@@ -175,7 +186,7 @@ namespace LyuAdmin.Users
             {
                 if (input.AssignedRoleNames.Contains(customerRole.Name))
                 {
-                    if (!entity.Roles.Any(x=>x.RoleId == customerRole.Id))
+                    if (entity.Roles.Any(x=>x.RoleId != customerRole.Id))
                     {
                         _userManager.AddToRole(entity.Id, customerRole.Name);
                        // entity.Roles.Add(new UserRole(entity.Id, customerRole.Id));

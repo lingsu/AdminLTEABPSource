@@ -6,6 +6,7 @@ using Abp.Localization.Sources.Xml;
 using Abp.Modules;
 using Abp.Zero;
 using Abp.Zero.Configuration;
+using LyuAdmin.Users;
 
 namespace LyuAdmin
 {
@@ -40,6 +41,7 @@ namespace LyuAdmin
 
            // Configuration.
             Configuration.Authorization.Providers.Add<AppAuthorizationProvider>();
+            Configuration.Settings.Providers.Add<UserSettingProvider>();
             Configuration.Navigation.Providers.Add<AdministrationNavigationProvider>();
         }
 

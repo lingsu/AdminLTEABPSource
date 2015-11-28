@@ -119,25 +119,25 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\aspnetboilerplate\src\Abp.AutoMapper\Abp.AutoMapper.csproj">
+      <Project>{06eb5f7c-b974-4775-a305-f175d645f7c9}</Project>
+      <Name>Abp.AutoMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\aspnetboilerplate\src\Abp\Abp.csproj">
+      <Project>{2c221d3b-5f54-4c5b-8082-318636415132}</Project>
+      <Name>Abp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\LyuUtility\Lyu.Utility\Lyu.Utility\Lyu.Utility.csproj">
       <Project>{a8eee703-3dd5-4529-82d2-ac74200654d1}</Project>
       <Name>Lyu.Utility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\aspnetboilerplate-master\src\Abp.AutoMapper\Abp.AutoMapper.csproj">
-      <Project>{06eb5f7c-b974-4775-a305-f175d645f7c9}</Project>
-      <Name>Abp.AutoMapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\aspnetboilerplate-master\src\Abp\Abp.csproj">
-      <Project>{2c221d3b-5f54-4c5b-8082-318636415132}</Project>
-      <Name>Abp</Name>
+    <ProjectReference Include="..\..\module-zero\src\Abp.Zero\Abp.Zero.csproj">
+      <Project>{70d916f2-9bff-43da-b3f7-3e0655114d48}</Project>
+      <Name>Abp.Zero</Name>
     </ProjectReference>
     <ProjectReference Include="..\LyuAdmin.Core\LyuAdmin.Core.csproj">
       <Project>{17298ea0-af73-4f30-b6f1-2066100d7d74}</Project>
       <Name>LyuAdmin.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\module-zero-master\src\Abp.Zero\Abp.Zero.csproj">
-      <Project>{70d916f2-9bff-43da-b3f7-3e0655114d48}</Project>
-      <Name>Abp.Zero</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
