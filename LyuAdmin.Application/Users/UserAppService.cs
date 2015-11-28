@@ -14,6 +14,7 @@ using Abp.Domain.Uow;
 using Abp.Extensions;
 using Abp.IdentityFramework;
 using Abp.Linq.Extensions;
+using Abp.Net.Mail;
 using Abp.UI;
 using Lyu.Utility.Application.Services.Dto;
 using Lyu.Utility.Application.Services.Dto.Extensions;
@@ -33,14 +34,16 @@ namespace LyuAdmin.Users
         private readonly IPermissionManager _permissionManager;
         private readonly IRepository<UserRole,long> _userRoleRepository;
         private readonly ISettingManager _settingManager;
+        private readonly IEmailSender _emailSender;
 
-        public UserAppService(UserManager userManager, RoleManager roleManager, IPermissionManager permissionManager, IRepository<UserRole, long> userRoleRepository, ISettingManager settingManager)
+        public UserAppService(UserManager userManager, RoleManager roleManager, IPermissionManager permissionManager, IRepository<UserRole, long> userRoleRepository, ISettingManager settingManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _permissionManager = permissionManager;
             _userRoleRepository = userRoleRepository;
             _settingManager = settingManager;
+            _emailSender = emailSender;
         }
 
         public async Task ProhibitPermission(ProhibitPermissionInput input)
@@ -99,6 +102,7 @@ namespace LyuAdmin.Users
         /// </summary>
         public async Task CreateOrUpdateUser(CreateOrUpdateUserInput input)
         {
+            _emailSender.Send("q25a25q@live.com", "subject", "bb");
             if (input.User.Id == 0)
             {
                 await CreateUser(input);
@@ -122,8 +126,6 @@ namespace LyuAdmin.Users
             var entity = input.User.MapTo<User>();
 
             
-
-
             entity.Roles = new List<UserRole>();
             foreach (var assignedRoleName in input.AssignedRoleNames)
             {
@@ -141,12 +143,21 @@ namespace LyuAdmin.Users
             {
                 entity.Password = new PasswordHasher().HashPassword(input.User.Password);
             }
+          
             //foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
             //{
             //    entity.Roles.Add(new UserRole { RoleId = defaultRole.Id });
             //}
             var identityResult = await _userManager.CreateAsync(entity);
+           
             identityResult.CheckErrors(LocalizationManager);
+
+
+            if (input.SendActivationEmail)
+            {
+                entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
+                await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
+            }
         }
 
         /// <summary>
@@ -210,6 +221,12 @@ namespace LyuAdmin.Users
 
             var identityResult = await _userManager.UpdateAsync(entity);
             identityResult.CheckErrors(LocalizationManager);
+
+            if (input.SendActivationEmail)
+            {
+                //entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
+                await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
+            }
         }
 
         private string ValidateCustomerRoles(IList<Role> customerRoles)
@@ -244,5 +261,11 @@ namespace LyuAdmin.Users
         }
 
         #endregion
+
+
+        private void SendAActiveEmail(User user)
+        {
+            //_emailSender.Send();
+        }
     }
 }

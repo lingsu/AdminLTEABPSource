@@ -1,7 +1,11 @@
-﻿@model LyuAdmin.Users.Dto.UserDto
+﻿@using Abp.Configuration
+@using Abp.Dependency
+@using LyuAdmin.Users
+@model LyuAdmin.Users.Dto.UserDto
 @{
-    var isAdmin = Model.UserName == "admin";
     var setRandomPassword = Model.Id == 0;
+    var isAdmin = !setRandomPassword && Model.UserName == IocManager.Instance.Resolve<ISettingManager>().GetSettingValue(UserSettingNames.DefaultAdminUserName);
+
 }
 @if (Model.Id > 0)
 {

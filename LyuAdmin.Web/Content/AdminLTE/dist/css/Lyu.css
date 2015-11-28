@@ -10,6 +10,7 @@
     margin-top: 0;
     padding: 20px 0;
 }
+
 .form-group.form-md-line-input {
     margin: 0 0 15px;
     /*padding-top: 20px;*/
@@ -27,6 +28,8 @@
     opacity: 0;
     position: absolute;
 }
-.form-group.form-md-line-input .form-control.edited:not([readonly]) ~ .help-block, .form-group.form-md-line-input .form-control:focus:not([readonly]) ~ .help-block, .form-group.form-md-line-input .form-control.focus:not([readonly]) ~ .help-block {
+
+.form-group.form-md-line-input .form-control:not([readonly]) ~ .help-block, .form-group.form-md-line-input .form-control:focus:not([readonly]) ~ .help-block, .form-group.form-md-line-input .form-control.focus:not([readonly]) ~ .help-block {
     opacity: 1;
+    filter: alpha(opacity=100)
 }

@@ -64,6 +64,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abp.Zero", "..\module-zero\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abp.Zero.EntityFramework", "..\module-zero\src\Abp.Zero.EntityFramework\Abp.Zero.EntityFramework.csproj", "{B728E703-345B-4553-A8B0-B28BB6738688}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lyu.Abp.Core", "..\LyuUtility\Lyu.Utility\Lyu.Abp.Core\Lyu.Abp.Core.csproj", "{8DD17EA1-0CD1-4C02-BA97-522AF29BA982}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,6 +168,10 @@ Global
 		{B728E703-345B-4553-A8B0-B28BB6738688}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B728E703-345B-4553-A8B0-B28BB6738688}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B728E703-345B-4553-A8B0-B28BB6738688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DD17EA1-0CD1-4C02-BA97-522AF29BA982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD17EA1-0CD1-4C02-BA97-522AF29BA982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD17EA1-0CD1-4C02-BA97-522AF29BA982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD17EA1-0CD1-4C02-BA97-522AF29BA982}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -190,5 +196,6 @@ Global
 		{9003DDA9-1DD5-41A1-B907-6F378767C441} = {6F3256AC-08B2-42E6-A414-4F49F1C96AD9}
 		{70D916F2-9BFF-43DA-B3F7-3E0655114D48} = {6F3256AC-08B2-42E6-A414-4F49F1C96AD9}
 		{B728E703-345B-4553-A8B0-B28BB6738688} = {6F3256AC-08B2-42E6-A414-4F49F1C96AD9}
+		{8DD17EA1-0CD1-4C02-BA97-522AF29BA982} = {0368D920-FC41-48F2-9340-B840C53BA85C}
 	EndGlobalSection
 EndGlobal
