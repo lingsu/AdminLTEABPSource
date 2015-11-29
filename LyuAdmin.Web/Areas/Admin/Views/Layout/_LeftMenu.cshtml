@@ -11,7 +11,7 @@
                 {
                     <i class="@menuItem.Icon"></i>
                 }
-                @menuItem.DisplayName
+                <span>@menuItem.DisplayName</span>
             </a>
         }
         else
@@ -21,7 +21,7 @@
                 {
                     <i class="@menuItem.Icon"></i>
                 }
-                @menuItem.DisplayName
+                <span>@menuItem.DisplayName</span>
             </a>
             <ul class="treeview-menu">
                 @foreach (var subMenuItem in menuItem.Items)
@@ -32,7 +32,7 @@
                             {
                                 <i class="@subMenuItem.Icon"></i>
                             }
-                            @subMenuItem.DisplayName
+                            <span>@subMenuItem.DisplayName</span>
                         </a>
                     </li>
                 }

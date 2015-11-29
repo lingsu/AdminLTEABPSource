@@ -102,7 +102,7 @@ namespace LyuAdmin.Users
         /// </summary>
         public async Task CreateOrUpdateUser(CreateOrUpdateUserInput input)
         {
-            _emailSender.Send("q25a25q@live.com", "subject", "bb");
+            //_emailSender.Send("q25a25q@live.com", "subject", "bb");
             if (input.User.Id == 0)
             {
                 await CreateUser(input);
@@ -119,12 +119,7 @@ namespace LyuAdmin.Users
         [AbpAuthorize(UsersPermissions.User_CreateUser)]
         public  async Task CreateUser(CreateOrUpdateUserInput input)
         {
-            //if (await _userManager(input.CategoryName))
-            //{
-            //    throw new UserFriendlyException(L("NameIsExists"));
-            //}
             var entity = input.User.MapTo<User>();
-
             
             entity.Roles = new List<UserRole>();
             foreach (var assignedRoleName in input.AssignedRoleNames)
@@ -135,29 +130,19 @@ namespace LyuAdmin.Users
                     entity.Roles.Add(new UserRole { RoleId = role.Id });
                 }
             }
+
             if (input.User.SetRandomPassword)
-            {
-                entity.Password = new PasswordHasher().HashPassword("123qwe");
-            }
-            else
-            {
-                entity.Password = new PasswordHasher().HashPassword(input.User.Password);
-            }
-          
-            //foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
-            //{
-            //    entity.Roles.Add(new UserRole { RoleId = defaultRole.Id });
-            //}
-            var identityResult = await _userManager.CreateAsync(entity);
+                input.User.Password = "123qwe";
+            
+            var identityResult = await _userManager.CreateAsync(entity, input.User.Password);
            
             identityResult.CheckErrors(LocalizationManager);
 
-
-            if (input.SendActivationEmail)
-            {
-                entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
-                await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
-            }
+            //if (input.SendActivationEmail)
+            //{
+            //    //entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
+            //    await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
+            //}
         }
 
         /// <summary>
@@ -168,7 +153,7 @@ namespace LyuAdmin.Users
         {
             var entity = await _userManager.GetUserByIdAsync(input.User.Id);
 
-            if (entity.UserName == _settingManager.GetSettingValue(UserSettingNames.DefaultAdminUserName) && input.User.UserName != entity.UserName)
+            if (IsAdminUser(entity) && input.User.UserName != entity.UserName)
             {
                 throw new UserFriendlyException("管理用户，不能修改用户名");
             }
@@ -181,8 +166,8 @@ namespace LyuAdmin.Users
 
             //input.User.MapTo(entity);
             if (!string.IsNullOrEmpty(input.User.Password))
-                entity.Password = new PasswordHasher().HashPassword(input.User.Password);
-            
+                entity.Password = _userManager.PasswordHasher.HashPassword(input.User.Password);
+            //_userManager.ema
             var newCustomerRoles = new List<Role>();
 
             var allCustomerRoles = await _roleManager.Roles.ToListAsync();
@@ -222,19 +207,15 @@ namespace LyuAdmin.Users
             var identityResult = await _userManager.UpdateAsync(entity);
             identityResult.CheckErrors(LocalizationManager);
 
-            if (input.SendActivationEmail)
-            {
-                //entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
-                await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
-            }
+            //if (input.SendActivationEmail)
+            //{
+                
+            //    entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
+            //    await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
+            //}
         }
 
-        private string ValidateCustomerRoles(IList<Role> customerRoles)
-        {
-
-            //no errors
-            return "";
-        }
+      
         /// <summary>
         /// 删除用户
         /// </summary>
@@ -243,6 +224,11 @@ namespace LyuAdmin.Users
         {
             //TODO:删除前的逻辑判断，是否允许删除
             var user = await _userManager.GetUserByIdAsync(input.Id);
+            if (IsAdminUser(user))
+            {
+                throw new UserFriendlyException("管理用户，不能删除！");
+            }
+
             await _userManager.DeleteAsync(user);
         }
 
@@ -266,6 +252,18 @@ namespace LyuAdmin.Users
         private void SendAActiveEmail(User user)
         {
             //_emailSender.Send();
+        }
+
+        private string ValidateCustomerRoles(IList<Role> customerRoles)
+        {
+
+            //no errors
+            return "";
+        }
+
+        private bool IsAdminUser(User user)
+        {
+            return user.UserName == _settingManager.GetSettingValue(UserSettingNames.DefaultAdminUserName);
         }
     }
 }
