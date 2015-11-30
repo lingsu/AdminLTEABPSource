@@ -132,7 +132,7 @@ namespace LyuAdmin.Users
             }
 
             if (input.User.SetRandomPassword)
-                input.User.Password = "123qwe";
+                input.User.Password = _settingManager.GetSettingValue(UserSettingNames.DefaultPassword);
             
             var identityResult = await _userManager.CreateAsync(entity, input.User.Password);
            
