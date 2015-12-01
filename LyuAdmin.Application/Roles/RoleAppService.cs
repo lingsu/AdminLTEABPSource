@@ -10,6 +10,7 @@ using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Lyu.Utility.Application.Services.Dto;
 using Lyu.Utility.Extensions;
+using Lyu.Utility.Application.Services.Dto.Extensions;
 
 namespace LyuAdmin.Roles
 {
@@ -57,7 +58,7 @@ namespace LyuAdmin.Roles
                 //TODO:根据传入的参数添加过滤条件
                 //.WhereIf(input.RoleCategoryId.HasValue, m => m.RoleCategoryId == input.RoleCategoryId)
                 //.WhereIf(!input.Keywords.IsNullOrWhiteSpace(), m => m.Title.Contains(input.Keywords))
-                .Query(input).ToOutputAsync<RoleQueryDto>();
+                .ToOutputAsync<RoleQueryDto>(input);
             return result;
         }
 
@@ -66,7 +67,7 @@ namespace LyuAdmin.Roles
         /// </summary>
         public async Task<RoleDto> GetRole(int id)
         {
-            var entity = await _roleRepository.GetAsync(id);
+            var entity = await _roleManager.GetRoleByIdAsync(id);
             return entity.MapTo<RoleDto>();
         }
 
@@ -89,14 +90,14 @@ namespace LyuAdmin.Roles
         /// 新增角色管理
         /// </summary>
         [AbpAuthorize(RolesPermissions.Role_CreateRole)]
-        public virtual async Task<RoleDto> CreateRole(RoleDto input)
+        public virtual async Task CreateRole(RoleDto input)
         {
             //if (await _roleRepository.IsExistsRoleByName(input.CategoryName))
             //{
             //    throw new UserFriendlyException(L("NameIsExists"));
             //}
-            var entity = await _roleRepository.InsertAsync(input.MapTo<Role>());
-            return entity.MapTo<RoleDto>();
+            var entity = await _roleManager.CreateAsync(input.MapTo<Role>());
+           
         }
 
         /// <summary>
@@ -109,8 +110,8 @@ namespace LyuAdmin.Roles
             //{
             //    throw new UserFriendlyException(L("NameIsExists"));
             //}
-            var entity = await _roleRepository.GetAsync(input.Id);
-            await _roleRepository.UpdateAsync(input.MapTo(entity));
+            var entity = await _roleManager.GetRoleByIdAsync(input.Id);
+            await _roleManager.UpdateAsync(input.MapTo(entity));
         }
 
         /// <summary>
@@ -120,7 +121,8 @@ namespace LyuAdmin.Roles
         public async Task DeleteRole(EntityRequestInput input)
         {
             //TODO:删除前的逻辑判断，是否允许删除
-            await _roleRepository.DeleteAsync(input.Id);
+            var entity = await _roleManager.GetRoleByIdAsync(input.Id);
+            await _roleManager.DeleteAsync(entity);
         }
 
         /// <summary>
@@ -130,7 +132,8 @@ namespace LyuAdmin.Roles
         public async Task BatchDeleteRole(IEnumerable<int> input)
         {
             //TODO:批量删除前的逻辑判断，是否允许删除
-            await _roleRepository.DeleteAsync(input);
+            //await _roleRepository.DeleteAsync(input);
+
         }
 
         #endregion

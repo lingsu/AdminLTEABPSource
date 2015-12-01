@@ -113,6 +113,14 @@
     <Compile Include="Migrations\201511131226498_datachange.Designer.cs">
       <DependentUpon>201511131226498_datachange.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512010907425_addUrl.cs" />
+    <Compile Include="Migrations\201512010907425_addUrl.Designer.cs">
+      <DependentUpon>201512010907425_addUrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512010918534_addHosts.cs" />
+    <Compile Include="Migrations\201512010918534_addHosts.Designer.cs">
+      <DependentUpon>201512010918534_addHosts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="LyuAdminDataModule.cs" />
     <Compile Include="Migrations\SeedData\DefaultTenantRoleAndUserBuilder.cs" />
@@ -160,6 +168,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511131226498_datachange.resx">
       <DependentUpon>201511131226498_datachange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512010907425_addUrl.resx">
+      <DependentUpon>201512010907425_addUrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512010918534_addHosts.resx">
+      <DependentUpon>201512010918534_addHosts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

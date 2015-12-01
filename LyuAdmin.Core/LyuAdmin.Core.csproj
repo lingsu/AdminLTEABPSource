@@ -82,6 +82,7 @@
     <Compile Include="AdministrationNavigationProvider.cs" />
     <Compile Include="AppAuthorizationProvider.cs" />
     <Compile Include="Authorization\Roles\RolePermissions.cs" />
+    <Compile Include="Domain\Messages\MessageTemplate.cs" />
     <Compile Include="Localization\CnLocalizationSettingProvider.cs" />
     <Compile Include="LyuAdminConsts.cs" />
     <Compile Include="LyuAdminCoreModule.cs" />

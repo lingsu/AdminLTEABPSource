@@ -9,5 +9,6 @@ namespace LyuAdmin.Roles
     {
         Task UpdateRolePermissions(UpdateRolePermissionsInput input);
         Task<IEnumerable<RoleDto>> GetRoleList();
+        Task<RoleDto> GetRole(int id);
     }
 }
