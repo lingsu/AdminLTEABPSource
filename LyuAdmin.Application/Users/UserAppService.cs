@@ -16,10 +16,12 @@ using Abp.IdentityFramework;
 using Abp.Linq.Extensions;
 using Abp.Net.Mail;
 using Abp.UI;
+using Lyu.Abp.Core.Messages;
 using Lyu.Utility.Application.Services.Dto;
 using Lyu.Utility.Application.Services.Dto.Extensions;
 using Lyu.Utility.Extensions;
 using LyuAdmin.Authorization.Roles;
+using LyuAdmin.Messages;
 using LyuAdmin.Roles.Dto;
 using LyuAdmin.Users.Dto;
 using Microsoft.AspNet.Identity;
@@ -35,8 +37,10 @@ namespace LyuAdmin.Users
         private readonly IRepository<UserRole,long> _userRoleRepository;
         private readonly ISettingManager _settingManager;
         private readonly IEmailSender _emailSender;
+        private readonly IMessageTokenProvider _messageTokenProvider;
+        private readonly ITokenizer _tokenizer;
 
-        public UserAppService(UserManager userManager, RoleManager roleManager, IPermissionManager permissionManager, IRepository<UserRole, long> userRoleRepository, ISettingManager settingManager, IEmailSender emailSender)
+        public UserAppService(UserManager userManager, RoleManager roleManager, IPermissionManager permissionManager, IRepository<UserRole, long> userRoleRepository, ISettingManager settingManager, IEmailSender emailSender, IMessageTokenProvider messageTokenProvider, ITokenizer tokenizer)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -44,7 +48,10 @@ namespace LyuAdmin.Users
             _userRoleRepository = userRoleRepository;
             _settingManager = settingManager;
             _emailSender = emailSender;
+            _messageTokenProvider = messageTokenProvider;
+            _tokenizer = tokenizer;
         }
+
 
         public async Task ProhibitPermission(ProhibitPermissionInput input)
         {
@@ -138,6 +145,7 @@ namespace LyuAdmin.Users
            
             identityResult.CheckErrors(LocalizationManager);
 
+           
             //if (input.SendActivationEmail)
             //{
             //    //entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
@@ -207,9 +215,23 @@ namespace LyuAdmin.Users
             var identityResult = await _userManager.UpdateAsync(entity);
             identityResult.CheckErrors(LocalizationManager);
 
+            //tokens
+            var tokens = new List<Token>();
+            _messageTokenProvider.AddUserTokens(tokens, entity);
+            // _userManager.UserTokenProvider = new EmailTokenProvider<User, long>();
+            //new DataProtectorTokenProvider(provider.Create("PasswordReset"));
+           
+            //await _userManager.EmailService.SendAsync(new IdentityMessage()
+            //{
+            //    Body = "bbb",
+            //    Destination = entity.EmailAddress,
+            //    Subject = "aaaa"
+            //});
+
+
             //if (input.SendActivationEmail)
             //{
-                
+
             //    entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
             //    await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
             //}
