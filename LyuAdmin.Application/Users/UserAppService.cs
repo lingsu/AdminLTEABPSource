@@ -109,7 +109,7 @@ namespace LyuAdmin.Users
         /// </summary>
         public async Task CreateOrUpdateUser(CreateOrUpdateUserInput input)
         {
-            //_emailSender.Send("q25a25q@live.com", "subject", "bb");
+           
             if (input.User.Id == 0)
             {
                 await CreateUser(input);
@@ -216,11 +216,10 @@ namespace LyuAdmin.Users
             identityResult.CheckErrors(LocalizationManager);
 
             //tokens
-            var tokens = new List<Token>();
-            _messageTokenProvider.AddUserTokens(tokens, entity);
+
             // _userManager.UserTokenProvider = new EmailTokenProvider<User, long>();
             //new DataProtectorTokenProvider(provider.Create("PasswordReset"));
-           
+
             //await _userManager.EmailService.SendAsync(new IdentityMessage()
             //{
             //    Body = "bbb",
@@ -229,12 +228,14 @@ namespace LyuAdmin.Users
             //});
 
 
-            //if (input.SendActivationEmail)
-            //{
-
-            //    entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
-            //    await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
-            //}
+            if (input.SendActivationEmail)
+            {
+                var tokens = new List<Token>();
+                _messageTokenProvider.AddUserTokens(tokens, entity);
+                //_emailSender.Send("q25a25q@live.com", "subject", "bb");
+                //entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
+                //await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
+            }
         }
 
       
