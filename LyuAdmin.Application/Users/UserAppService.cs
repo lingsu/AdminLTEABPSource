@@ -39,8 +39,9 @@ namespace LyuAdmin.Users
         private readonly IEmailSender _emailSender;
         private readonly IMessageTokenProvider _messageTokenProvider;
         private readonly ITokenizer _tokenizer;
+        private readonly MessageManager _messageManager;
 
-        public UserAppService(UserManager userManager, RoleManager roleManager, IPermissionManager permissionManager, IRepository<UserRole, long> userRoleRepository, ISettingManager settingManager, IEmailSender emailSender, IMessageTokenProvider messageTokenProvider, ITokenizer tokenizer)
+        public UserAppService(UserManager userManager, RoleManager roleManager, IPermissionManager permissionManager, IRepository<UserRole, long> userRoleRepository, ISettingManager settingManager, IEmailSender emailSender, IMessageTokenProvider messageTokenProvider, ITokenizer tokenizer, MessageManager messageManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -50,8 +51,8 @@ namespace LyuAdmin.Users
             _emailSender = emailSender;
             _messageTokenProvider = messageTokenProvider;
             _tokenizer = tokenizer;
+            _messageManager = messageManager;
         }
-
 
         public async Task ProhibitPermission(ProhibitPermissionInput input)
         {
@@ -153,6 +154,21 @@ namespace LyuAdmin.Users
             //}
         }
 
+        private async Task<int> SendActivationEmail(User user)
+        {
+            var messageTemplate = await _messageManager.GetActiveMessageTemplate("Customer.EmailValidationMessage");
+            if (messageTemplate == null)
+                return 0;
+
+            var tokens = new List<Token>();
+            _messageTokenProvider.AddUserTokens(tokens, user);
+
+            _emailSender.Send("q25a25q@live.com", _tokenizer.Replace(messageTemplate.Subject, tokens,false), _tokenizer.Replace(messageTemplate.Body, tokens, true));
+            //entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
+            //await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
+
+            return 1;
+        }
         /// <summary>
         /// 更新用户
         /// </summary>
@@ -230,11 +246,7 @@ namespace LyuAdmin.Users
 
             if (input.SendActivationEmail)
             {
-                var tokens = new List<Token>();
-                _messageTokenProvider.AddUserTokens(tokens, entity);
-                //_emailSender.Send("q25a25q@live.com", "subject", "bb");
-                //entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
-                //await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
+               await SendActivationEmail(entity);
             }
         }
 

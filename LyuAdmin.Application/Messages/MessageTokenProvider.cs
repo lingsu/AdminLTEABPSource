@@ -16,7 +16,7 @@ namespace LyuAdmin.Messages
             _webHelper = webHelper;
         }
 
-        public IAbpSession AbpSession { get; set; }
+    
 
         public void AddUserTokens(IList<Token> tokens, User user)
         {
@@ -24,7 +24,6 @@ namespace LyuAdmin.Messages
             tokens.Add(new Token("User.Username", user.UserName));
             tokens.Add(new Token("User.Surname", user.Surname));
             tokens.Add(new Token("User.Name", user.Name));
-
 
             //note: we do not use SEO friendly URLS because we can get errors caused by having .(dot) in the URL (from the email address)
             //TODO add a method for getting URL (use routing because it handles all SEO friendly URLs)
