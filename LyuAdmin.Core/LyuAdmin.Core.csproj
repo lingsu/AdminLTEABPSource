@@ -96,6 +96,7 @@
     <Compile Include="Authorization\Roles\RoleManager.cs" />
     <Compile Include="Authorization\Roles\RoleStore.cs" />
     <Compile Include="Settings\EmailSettingProvider.cs" />
+    <Compile Include="Users\EmailService.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Users\UserManager.cs" />
     <Compile Include="Users\UserPermissions.cs" />

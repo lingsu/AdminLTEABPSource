@@ -10,6 +10,7 @@ using Abp.Runtime.Caching;
 using Abp.Zero.Configuration;
 using LyuAdmin.Authorization.Roles;
 using LyuAdmin.MultiTenancy;
+using Microsoft.AspNet.Identity;
 
 namespace LyuAdmin.Users
 {
@@ -18,6 +19,7 @@ namespace LyuAdmin.Users
         public UserManager(
             UserStore store,
             RoleManager roleManager,
+            EmailService emailService,
             IRepository<Tenant> tenantRepository,
             IMultiTenancyConfig multiTenancyConfig,
             IPermissionManager permissionManager,
@@ -39,7 +41,25 @@ namespace LyuAdmin.Users
                 cacheManager
             )
         {
+            this.EmailService = emailService;
+
+            //RegisterTwoFactorProvider("PhoneCode",new PhoneNumberTokenProvider<User,long>()
+            //{
+            //    MessageFormat = "your code is {0}"
+            //});
+
+            //RegisterTwoFactorProvider("EmailCode", new EmailTokenProvider<User, long>()
+            //{
+            //    Subject = "securiyCode",
+            //    BodyFormat = "your code is {0}"
+            //});
+            UserTokenProvider = new EmailTokenProvider<User, long>()
+            {
+                Subject = "securiyCode",
+                BodyFormat = "your code is {0}"
+            };
+            //IUserSecurityStampStore<>
+            //UserTokenProvider =new DataProtectorTokenProvider
         }
-       
     }
 }

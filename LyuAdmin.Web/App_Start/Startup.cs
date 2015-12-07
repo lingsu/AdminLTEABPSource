@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Configuration;
 using LyuAdmin.Api.Controllers;
+using LyuAdmin.Users;
 using LyuAdmin.Web;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.Twitter;
@@ -24,8 +27,25 @@ namespace LyuAdmin.Web
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login")
+                //Provider = new CookieAuthenticationProvider
+                //{
+                //    // Enables the application to validate the security stamp when the user logs in.
+                //    // This is a security feature which is used when you change a password or add an external login to your account.  
+                //    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                //    validateInterval: TimeSpan.FromMinutes(30),
+                //     regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                //}
             });
-
+            //var dataProtectionProvider = app.GetDataProtectionProvider();
+            //if (dataProtectionProvider!=null)
+            //{
+            //    new DataProtectorTokenProvider<User,long>
+            //      (dataProtectionProvider.Create("ConfirmationToken"))
+            //    {
+            //        TokenLifespan = TimeSpan.FromHours(3)
+            //    }.GenerateAsync()
+            //}
+           
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             if (IsTrue("ExternalAuth.Facebook.IsEnabled"))

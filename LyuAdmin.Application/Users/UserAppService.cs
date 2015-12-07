@@ -187,7 +187,7 @@ namespace LyuAdmin.Users
             entity.Surname = input.User.Surname;
             entity.EmailAddress = input.User.EmailAddress;
             entity.IsActive = input.User.IsActive;
-
+            
             //input.User.MapTo(entity);
             if (!string.IsNullOrEmpty(input.User.Password))
                 entity.Password = _userManager.PasswordHasher.HashPassword(input.User.Password);
@@ -227,7 +227,7 @@ namespace LyuAdmin.Users
             //{
             //    userRole.RoleId
             //}
-
+            
             var identityResult = await _userManager.UpdateAsync(entity);
             identityResult.CheckErrors(LocalizationManager);
 
@@ -242,8 +242,8 @@ namespace LyuAdmin.Users
             //    Destination = entity.EmailAddress,
             //    Subject = "aaaa"
             //});
-
-
+           // var sff = await _userManager.UpdateSecurityStampAsync(entity.Id);
+            var s = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
             if (input.SendActivationEmail)
             {
                await SendActivationEmail(entity);
