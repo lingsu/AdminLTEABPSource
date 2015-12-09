@@ -242,7 +242,9 @@ namespace LyuAdmin.Users
             //    Destination = entity.EmailAddress,
             //    Subject = "aaaa"
             //});
-           // var sff = await _userManager.UpdateSecurityStampAsync(entity.Id);
+            //var sff = await _userManager.UpdateSecurityStampAsync(entity.Id);
+            var b = await UserManager.GenerateUserTokenAsync("EmailConfirmation", entity.Id);
+            string code = UserManager.GeneratePasswordResetToken(entity.Id);
             var s = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
             if (input.SendActivationEmail)
             {

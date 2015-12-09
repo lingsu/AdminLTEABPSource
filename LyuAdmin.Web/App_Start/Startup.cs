@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Configuration;
+using Abp.Dependency;
+using Castle.MicroKernel.Registration;
 using LyuAdmin.Api.Controllers;
 using LyuAdmin.Users;
 using LyuAdmin.Web;
@@ -36,16 +38,18 @@ namespace LyuAdmin.Web
                 //     regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 //}
             });
-            //var dataProtectionProvider = app.GetDataProtectionProvider();
-            //if (dataProtectionProvider!=null)
-            //{
-            //    new DataProtectorTokenProvider<User,long>
-            //      (dataProtectionProvider.Create("ConfirmationToken"))
-            //    {
-            //        TokenLifespan = TimeSpan.FromHours(3)
-            //    }.GenerateAsync()
-            //}
-           
+            var dataProtectionProvider = app.GetDataProtectionProvider();
+            if (dataProtectionProvider != null)
+            {
+                var dt = new DataProtectorTokenProvider<User, long>(dataProtectionProvider.Create("ConfirmationToken"))
+                {
+                    TokenLifespan = TimeSpan.FromHours(3)
+                };
+               
+                IocManager.Instance.IocContainer.Register(Component.For<IUserTokenProvider<User, long>>().UsingFactoryMethod(() => dt));
+                
+            }
+
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             if (IsTrue("ExternalAuth.Facebook.IsEnabled"))

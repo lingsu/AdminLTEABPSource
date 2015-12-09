@@ -27,6 +27,7 @@ namespace LyuAdmin.Users
             ISettingManager settingManager,
             IUserManagementConfig userManagementConfig,
             IIocResolver iocResolver,
+            IUserTokenProvider<User, long> userTokenProvider,
             ICacheManager cacheManager)
             : base(
                 store,
@@ -53,13 +54,13 @@ namespace LyuAdmin.Users
             //    Subject = "securiyCode",
             //    BodyFormat = "your code is {0}"
             //});
-            UserTokenProvider = new EmailTokenProvider<User, long>()
-            {
-                Subject = "securiyCode",
-                BodyFormat = "your code is {0}"
-            };
+            //UserTokenProvider = new EmailTokenProvider<User, long>()
+            //{
+            //    Subject = "securiyCode",
+            //    BodyFormat = "your code is {0}"
+            //};
             //IUserSecurityStampStore<>
-            //UserTokenProvider =new DataProtectorTokenProvider
+            UserTokenProvider = userTokenProvider;
         }
     }
 }
