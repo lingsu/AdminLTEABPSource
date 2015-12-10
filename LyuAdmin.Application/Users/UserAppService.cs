@@ -162,7 +162,7 @@ namespace LyuAdmin.Users
 
             var tokens = new List<Token>();
             _messageTokenProvider.AddUserTokens(tokens, user);
-
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
             _emailSender.Send("q25a25q@live.com", _tokenizer.Replace(messageTemplate.Subject, tokens,false), _tokenizer.Replace(messageTemplate.Body, tokens, true));
             //entity.EmailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(entity.Id);
             //await _userManager.SendEmailAsync(entity.Id, "sss", "bbb");
